@@ -1,0 +1,30 @@
+body {
+    margin:0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+div.row {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+}
+
+div.cell_default {
+    background: url("../images/pin_gris.svg") no-repeat center;
+}
+
+div.cell_selected {
+    background: url("../images/pin_bleu.svg") no-repeat center;
+}
+
+div.cell_unselected {
+    background: url("../images/pin_grisclair.svg") no-repeat center;
+}

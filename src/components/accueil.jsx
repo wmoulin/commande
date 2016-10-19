@@ -8,7 +8,7 @@ export class Greeting extends React.Component {
 
     render() {
         return (
-            <h1>Salut , {this.props.name}</h1>
+            <h1>Salut, {this.props.name}</h1>
         );
     }
 }

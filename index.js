@@ -3,8 +3,9 @@ import * as ReactDOM from "react-dom";
 
 //import {Greeting} from "./src/components/accueil";
 import {Baseplate} from "./src/components/baseplane";
+import {BrickShape} from "./src/components/brickshape";
 
 ReactDOM.render(
-    <Baseplate width="20" height="20" />,
+    <Baseplate width={20} height={20}><BrickShape bricks={[{x:1, y:1}]}/><BrickShape bricks={[{x:2, y:2}]}/></Baseplate>,
     document.getElementById('app')
 );

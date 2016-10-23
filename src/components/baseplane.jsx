@@ -57,7 +57,7 @@ export class Baseplate extends React.Component {
             this.props.children.forEach((child)=>{
               child.props.bricks.forEach((brick)=>{
                 if (x == brick.x && y == brick.y) {
-                  className += "grey upper";
+                  className += " grey upper";
                 }
               });
             });

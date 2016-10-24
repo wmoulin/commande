@@ -46,6 +46,7 @@ export class Baseplate extends React.Component {
       }
 
       let className = "";
+      let onClick = undefined;
 
       let divs = [];
       for (let y = this.state.minY ; y < this.state.maxY ; y++) {
@@ -57,12 +58,13 @@ export class Baseplate extends React.Component {
             this.props.children.forEach((child)=>{
               child.props.bricks.forEach((brick)=>{
                 if (x == brick.x && y == brick.y) {
-                  className += " grey upper";
+                  className += " " + child.props.classShape;
+                  onClick = child.props.onClick;
                 }
               });
             });
           }
-          divs.push(<div key={y+"_"+x} className={className} style={style} x={x} y={y} />);
+          divs.push(<div key={y+"_"+x} className={className} style={style} x={x} y={y}  onClick={onClick}/>);
         }
       }
 

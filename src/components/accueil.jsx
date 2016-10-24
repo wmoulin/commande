@@ -1,20 +1,45 @@
 import * as React from 'react'
 import {Baseplate} from "./baseplane";
 import {BrickShape} from "./brickshape";
+import {BluetoothDevice} from "../bluetooth/ble";
 
 export class Greeting extends React.Component {
 
     constructor(props, context) {
       super(props, context);
+
+      this.bluetoothDevice = new BluetoothDevice("LEO", this.onDisconnected);
+      this.bluetoothDevice.addService("sCommand", "0000ffe0-0000-1000-8000-00805f9b34fb");
+      this.bluetoothDevice.addCharacteristic("sCommand", "cCommand", "0000ffe1-0000-1000-8000-00805f9b34fb");
     }
 
     render() {
         return (
             <Baseplate width={18} height={26}>
-              <BrickShape bricks={this.props.shapes[0].cells}/>
-                <BrickShape bricks={this.props.shapes[1].cells}/>
+              <BrickShape bricks={this.props.shapes[0].cells} classShape="blue upper"/>
+              <BrickShape bricks={this.props.shapes[1].cells} onClick={(e) => this.connect()} classShape="grey upper"/>
             </Baseplate>
+
         );
+    }
+
+    connect() {
+      console.log("connexion");
+    	this.bluetoothDevice.connect()
+    	.then(() => {
+    		return this.bluetoothDevice.getService("sCommand");
+    	})
+    	.then((bluetoothService) => {
+    		return this.bluetoothService.getCharacteristic("cCommand");
+    	})
+    	.then(() => {
+    		//document.getElementById("connectBtn").onclick=function(){disconnect()};
+    	})
+      .catch(error => { console.log(error); });
+    }
+
+    onDisconnected() {
+      console.log('Device ' + this.bluetoothDevice.name + ' is disconnected.');
     }
 }
 

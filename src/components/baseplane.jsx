@@ -75,6 +75,15 @@ export class Baseplate extends React.Component {
       );
     }
 
+    defaultHandler(child, className) {
+      // document.querySelectorAll("[x='1'][y='1'],[x='1'][y='2']");
+      child.props.bricks.forEach((brick)=>{
+        if (x == brick.x && y == brick.y) {
+          let className = " " + child.props.classShape;
+        }
+      });
+    }
+
 }
 
 Baseplate.defaultProps = {

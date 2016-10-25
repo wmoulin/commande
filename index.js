@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from "react-dom";
 
 import {Greeting} from "./src/components/accueil";
+import {Driver} from "./src/components/driver";
 import {Baseplate} from "./src/components/baseplane";
 import {BrickShape} from "./src/components/brickshape";
 
@@ -11,6 +12,6 @@ import {BrickShape} from "./src/components/brickshape";
 );*/
 
 ReactDOM.render(
-    <Greeting/>,
+    <Driver/>,
     document.getElementById('app')
 );

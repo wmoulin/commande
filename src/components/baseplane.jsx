@@ -45,7 +45,7 @@ export class Baseplate extends React.Component {
         height: this.state.sizeElt
       }
 
-      let className = "";
+      let className = "lego darkgrey";
       let onClick = undefined;
 
       let divs = [];
@@ -53,18 +53,7 @@ export class Baseplate extends React.Component {
         if(y === 0) continue ;
         for(let x = this.state.minX ; x < this.state.maxX ; x++){
           if(x === 0) continue ;
-          className="lego darkgrey";
-          if (this.props.children) {
-            this.props.children.forEach((child)=>{
-              child.props.bricks.forEach((brick)=>{
-                if (x == brick.x && y == brick.y) {
-                  className += " " + child.props.classShape;
-                  onClick = child.props.onClick;
-                }
-              });
-            });
-          }
-          divs.push(<div key={y+"_"+x} className={className} style={style} x={x} y={y}  onClick={onClick}/>);
+          divs.push(<div key={y+"_"+x} className={className} style={style} x={x} y={y}/>);
         }
       }
 
@@ -75,15 +64,25 @@ export class Baseplate extends React.Component {
       );
     }
 
-    defaultHandler(child, className) {
-      // document.querySelectorAll("[x='1'][y='1'],[x='1'][y='2']");
-      child.props.bricks.forEach((brick)=>{
-        if (x == brick.x && y == brick.y) {
-          let className = " " + child.props.classShape;
-        }
+    componentDidMount() {
+      this.props.children.forEach((child) => {
+        let selectElts  = document.querySelectorAll(child.props.bricks.map((brick)=>{return "[x='"+brick.x+"'][y='"+brick.y+"']"}).join(","));
+        selectElts.forEach((elt)=>{
+          elt.className = child.props.classShape;
+          if (!child.props.onClick && !child.props.activeClassShape) return;
+          elt.addEventListener("click", function(e){
+            if (child.props.activeClassShape) {
+              selectElts.forEach((elt)=>{
+                elt.className = child.props.activeClassShape;
+              });
+            }
+            if (child.props.onClick) {
+              child.props.onClick();
+            }
+          });
+        });
       });
     }
-
 }
 
 Baseplate.defaultProps = {

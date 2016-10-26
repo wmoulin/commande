@@ -10,8 +10,11 @@ import {BrickShape} from "./src/components/brickshape";
     <Baseplate width={20} height={20}><BrickShape bricks={[{x:1, y:1}]}/><BrickShape bricks={[{x:2, y:2}]}/></Baseplate>,
     document.getElementById('app')
 );*/
-
 ReactDOM.render(
-    <Driver/>,
+    <Greeting/>,
     document.getElementById('app')
 );
+/*ReactDOM.render(
+    <Driver/>,
+    document.getElementById('app')
+);*/

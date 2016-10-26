@@ -16,8 +16,8 @@ export class Greeting extends React.Component {
     render() {
         return (
             <Baseplate width={18} height={26}>
-              <BrickShape bricks={this.props.shapes[0].cells} classShape="blue upper"/>
-              <BrickShape bricks={this.props.shapes[1].cells} onClick={(e) => this.connect()} classShape="grey upper"/>
+              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego blue upper"/>
+              <BrickShape bricks={this.props.shapes[1].cells} onClick={(e) => this.connect()} classShape="lego grey upper"/>
             </Baseplate>
 
         );
@@ -35,7 +35,7 @@ export class Greeting extends React.Component {
     	.then(() => {
     		//document.getElementById("connectBtn").onclick=function(){disconnect()};
     	})
-      .catch(error => { console.log(error); });
+      .catch(error => { alert("Erreur lors de la connexion à Léo : \n" + error); console.log(error); });
     }
 
     onDisconnected() {

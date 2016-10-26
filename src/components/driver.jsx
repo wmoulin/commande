@@ -16,16 +16,16 @@ export class Driver extends React.Component {
     render() {
         return (
             <Baseplate width={18} height={26}>
-              <BrickShape bricks={this.props.shapes[0].cells} classShape="grey upper" onClick={(e) => this.connect(e)}/>
-              <BrickShape bricks={this.props.shapes[1].cells} classShape="grey upper" classShapeClick="blue upper"/>
-              <BrickShape bricks={this.props.shapes[2].cells} classShape="grey upper" classShapeClick="blue upper"/>
-              <BrickShape bricks={this.props.shapes[3].cells} classShape="grey upper" classShapeClick="blue upper"/>
-              <BrickShape bricks={this.props.shapes[4].cells} classShape="grey upper"/>
-              <BrickShape bricks={this.props.shapes[5].cells} classShape="grey upper"/>
-              <BrickShape bricks={this.props.shapes[6].cells} classShape="grey upper"/>
-              <BrickShape bricks={this.props.shapes[7].cells} classShape="grey upper"/>
-              <BrickShape bricks={this.props.shapes[8].cells} classShape="grey upper"/>
-              <BrickShape bricks={this.props.shapes[9].cells} classShape="grey upper" classShapeClick="blue upper"/>
+              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" onClick={(e) => this.connect(e)}/>
+              <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
+              <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
+              <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
+              <BrickShape bricks={this.props.shapes[4].cells} classShape="lego grey upper"/>
+              <BrickShape bricks={this.props.shapes[5].cells} classShape="lego grey upper"/>
+              <BrickShape bricks={this.props.shapes[6].cells} classShape="lego grey upper"/>
+              <BrickShape bricks={this.props.shapes[7].cells} classShape="lego grey upper"/>
+              <BrickShape bricks={this.props.shapes[8].cells} classShape="lego grey upper"/>
+              <BrickShape bricks={this.props.shapes[9].cells} classShape="lego grey upper" classShapeClick="lego blue upper"/>
             </Baseplate>
 
         );

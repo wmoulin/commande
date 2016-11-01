@@ -3,7 +3,7 @@ import {Baseplate} from "./baseplane";
 import {BrickShape} from "./brickshape";
 import {BluetoothDevice} from "../bluetooth/ble";
 
-export class Greeting extends React.Component {
+export class Connect extends React.Component {
 
     constructor(props, context) {
       super(props, context);
@@ -40,10 +40,13 @@ export class Greeting extends React.Component {
 
     onDisconnected() {
       console.log('Device ' + this.bluetoothDevice.name + ' is disconnected.');
+      if (this.props.disconnect) {
+        this.props.disconnect();
+      }
     }
 }
 
-Greeting.defaultProps = {
+Connect.defaultProps = {
   shapes : [{cells : [
               //L
               {x:1, y:2}, {x:1, y:3}, {x:1, y:4}, {x:1, y:5}, {x:1, y:6}, {x:2, y:6}, {x:3, y:6}, {x:4, y:6},

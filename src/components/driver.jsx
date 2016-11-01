@@ -16,7 +16,7 @@ export class Driver extends React.Component {
     render() {
         return (
             <Baseplate width={18} height={26}>
-              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" onClick={(e) => this.connect(e)}/>
+              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" onClick={(e) => this.move(e)}/>
               <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
               <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
               <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>

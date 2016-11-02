@@ -20,8 +20,8 @@ const common = {
     client: PATHS.client
   },
   output: {
-    path: PATHS.build,
-    filename: 'client.js'
+    //path: "static",//PATHS.build,
+    filename: 'js/client.js'
   },
   resolve: {
     extensions: ["", ".js", ".jsx", ".css", ".html"],
@@ -59,9 +59,9 @@ switch (process.env.npm_lifecycle_event) {
       common, {
         devtool: "source-map",
         output: {
-          path: PATHS.build,
-          filename: "[name].[chunkhash].js",
-          chunkFilename: "[chunkhash].js"
+          publicPath: "/static/js/",
+          filename: "static/js/[name].[chunkhash].js",
+          chunkFilename: "static/js/[chunkhash].js"
         }
       },
       configParts.clean(PATHS.build),

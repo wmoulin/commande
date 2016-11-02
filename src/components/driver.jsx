@@ -34,11 +34,24 @@ export class Driver extends React.Component {
       })
       .then((characteristic) => {
         characteristic.write(this.props.move.dataToSend([direction]));
-      })
+      }).catch(error => {
+        this.showMessage("Erreur lors de l'envoi de la commande à LEO : " + error + ". Deconnexion en cours...");
+        console.log(error);
+        setTimeout(() => {
+          this.disconnect();
+        }, 3000);
+      });
     }
 
     disconnect() {
       this.props.device.disconnect();
+    }
+
+
+    showMessage(msg){
+      if (this.props.showMessage) {
+        this.props.showMessage(msg);
+      }
     }
 }
 

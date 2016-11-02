@@ -20,8 +20,7 @@ exports.devServer = (options) => {
       inline: true,
       stats: 'errors-only',
       host: options.host,
-      port: options.port,
-      publicPath: "/static/js/"
+      port: options.port
     },
     module: {
       loaders: [

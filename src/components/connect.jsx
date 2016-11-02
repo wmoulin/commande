@@ -25,7 +25,7 @@ export class Connect extends React.Component {
 
     connect() {
       console.log("connexion");
-
+      this.showMessage("Connexion à Léo en cours...");
     	this.bluetoothDevice.connect()
     	.then(() => {
     		return this.bluetoothDevice.getService("sCommand");
@@ -34,11 +34,20 @@ export class Connect extends React.Component {
     		return this.bluetoothService.getCharacteristic("cCommand");
     	})
     	.then(() => {
-        if (this.props.connect) {
-          this.props.connect();
-        }
+        this.showMessage("Vous êtes maintenant connecté à Léo... à vous de jouer !");
+        setTimeout(() => {
+          if (this.props.connect) {
+            this.props.connect();
+          }
+        }, 3000);
     	})
-      .catch(error => { alert("Erreur lors de la connexion à Léo : \n" + error); console.log(error); });
+      .catch(error => {
+        this.showMessage("Erreur lors de la connexion à Léo : " + error);
+        console.log(error);
+        setTimeout(() => {
+          this.showMessage();
+        }, 3000);
+      });
     }
 
     onDisconnected() {
@@ -47,6 +56,13 @@ export class Connect extends React.Component {
         this.props.disconnect();
       }
     }
+
+    showMessage(msg){
+      if (this.props.showMessage) {
+        this.props.showMessage(msg);
+      }
+    }
+
 }
 
 Connect.defaultProps = {

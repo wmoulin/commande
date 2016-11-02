@@ -21,7 +21,7 @@ const common = {
   },
   output: {
     //path: "static",//PATHS.build,
-    filename: 'js/client.js'
+    filename: 'static/js/client.js'
   },
   resolve: {
     extensions: ["", ".js", ".jsx", ".css", ".html"],

@@ -1,4 +1,4 @@
-export class Order{
+export class Order {
 
 	constructor(code) {
 		this.codeByte = code;

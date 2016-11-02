@@ -4,7 +4,7 @@ export class BrickShape extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        
+
     }
 
     render() {

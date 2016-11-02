@@ -25,6 +25,7 @@ export class Connect extends React.Component {
 
     connect() {
       console.log("connexion");
+
     	this.bluetoothDevice.connect()
     	.then(() => {
     		return this.bluetoothDevice.getService("sCommand");
@@ -33,7 +34,9 @@ export class Connect extends React.Component {
     		return this.bluetoothService.getCharacteristic("cCommand");
     	})
     	.then(() => {
-    		//document.getElementById("connectBtn").onclick=function(){disconnect()};
+        if (this.props.connect) {
+          this.props.connect();
+        }
     	})
       .catch(error => { alert("Erreur lors de la connexion à Léo : \n" + error); console.log(error); });
     }

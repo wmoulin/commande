@@ -1,9 +1,9 @@
-import { ACTIONS } from "../reducer";
+const TYPE = 'CONNECT'
 
 export class ConnectAction {
 
   constructor(device) {
-    this.type = ACTIONS.CONNECT;
+    this.type = TYPE;
     this.device = device;
   }
 

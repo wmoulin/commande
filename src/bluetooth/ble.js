@@ -104,9 +104,7 @@ export class BluetoothDevice {
 
 	  if (this.device.gatt.connected) {
 	    console.log('Disconnect');
-	    //TODO if(colorCharacteristic) colorCharacteristic.removeEventListener('characteristicvaluechanged', characteristicValueChanged);
 	    this.device.gatt.disconnect();
-	    //});
 	  } else {
 	    console.log('Bluetooth Device is already disconnected');
 	  }

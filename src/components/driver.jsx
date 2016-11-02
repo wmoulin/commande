@@ -1,57 +1,50 @@
 import * as React from 'react'
 import {Baseplate} from "./baseplane";
 import {BrickShape} from "./brickshape";
-import {BluetoothDevice} from "../bluetooth/ble";
+import {Order} from "../bluetooth/order";
 
 export class Driver extends React.Component {
 
     constructor(props, context) {
       super(props, context);
-
-      this.bluetoothDevice = new BluetoothDevice("LEO", this.onDisconnected);
-      this.bluetoothDevice.addService("sCommand", "0000ffe0-0000-1000-8000-00805f9b34fb");
-      this.bluetoothDevice.addCharacteristic("sCommand", "cCommand", "0000ffe1-0000-1000-8000-00805f9b34fb");
     }
 
     render() {
         return (
             <Baseplate width={18} height={26}>
-              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" onClick={(e) => this.move(e)}/>
-              <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
-              <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
-              <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper"/>
+              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(1)} ontouchend={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(3)} ontouchend={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(4)} ontouchend={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(2)} ontouchend={() => this.move(0)}/>
               <BrickShape bricks={this.props.shapes[4].cells} classShape="lego grey upper"/>
               <BrickShape bricks={this.props.shapes[5].cells} classShape="lego grey upper"/>
               <BrickShape bricks={this.props.shapes[6].cells} classShape="lego grey upper"/>
               <BrickShape bricks={this.props.shapes[7].cells} classShape="lego grey upper"/>
-              <BrickShape bricks={this.props.shapes[8].cells} classShape="lego grey upper"/>
-              <BrickShape bricks={this.props.shapes[9].cells} classShape="lego grey upper" classShapeClick="lego blue upper"/>
+              <BrickShape bricks={this.props.shapes[8].cells} classShape="lego grey upper" ontouchstart={() => this.disconnect()}/>
+              <BrickShape bricks={this.props.shapes[9].cells} classShape="lego grey upper" classShapeClick="lego blue upper" ontouchstart={() => this.move(5)} ontouchend={() => this.move(0)}/>
             </Baseplate>
 
         );
     }
 
-    click() {
-      console.log("connexion");
-    	this.bluetoothDevice.connect()
-    	.then(() => {
-    		return this.bluetoothDevice.getService("sCommand");
-    	})
-    	.then((bluetoothService) => {
-    		return this.bluetoothService.getCharacteristic("cCommand");
-    	})
-    	.then(() => {
-    		//document.getElementById("connectBtn").onclick=function(){disconnect()};
-    	})
-      .catch(error => { console.log(error); });
+    move(direction) {
+      this.props.device.getService("sCommand")
+      .then((service)=> {
+        return service.getCharacteristic("cCommand")
+      })
+      .then((characteristic) => {
+        characteristic.write(this.props.move.dataToSend([direction]));
+      })
     }
 
-    onDisconnected() {
-      console.log('Device ' + this.bluetoothDevice.name + ' is disconnected.');
+    disconnect() {
+      this.props.device.disconnect();
     }
 }
 
 Driver.defaultProps = {
+  move: new Order(0x02),
+  color: new Order(0x03),
   shapes : [{cells : [
               //HAUT
               {x:9, y:2}, {x:10, y:2},

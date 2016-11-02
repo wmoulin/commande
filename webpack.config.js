@@ -59,7 +59,7 @@ switch (process.env.npm_lifecycle_event) {
       common, {
         devtool: "source-map",
         output: {
-          publicPath: "/static/js/",
+          //publicPath: "/static/js/",
           filename: "static/js/[name].[chunkhash].js",
           chunkFilename: "static/js/[chunkhash].js"
         }

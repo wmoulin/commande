@@ -29,18 +29,17 @@ export class BluetoothDevice {
 				name: this.name
 			}];
 
-			if (this.services && this.services.length > 0) {
+			if (this.services) {
 				filters[0].services = [];
 				Object.keys(this.services).forEach((key) => {
-		    	filters[0].services.push(this.services[key].uuid)
+		    	filters[0].services.push(this.services[key].uuid);
 				});
 			}
 
-			return navigator.bluetooth.requestDevice({filters})
+			return navigator.bluetooth.requestDevice({filters: filters})
 		  .then(device => {
-		    console.log("device trouve");
-			  this.device = device;
-		    device.addEventListener('gattserverdisconnected', this.onDisconnected);
+		    this.device = device;
+		    device.addEventListener('gattserverdisconnected', this.onDisconnected.bind(this));
 		    return device;
 		  })
 		}
@@ -68,10 +67,10 @@ export class BluetoothDevice {
 			throw new Error("Server GATT not initialized.");
 		}
 		if (this.services[id].service) {
-			return Promise.resolve(this.services[id].service);
+			return Promise.resolve(this.services[id]);
 		} else {
 			return this.connect().then(server => {
-			  return this.server.getPrimaryService(this.services[id].uuid)
+				return this.server.getPrimaryService(this.services[id].uuid)
 		  })
 			.then((service) => {
 				this.services[id].service = service;
@@ -82,10 +81,10 @@ export class BluetoothDevice {
 
 	onDisconnected() {
 		this.server = undefined;
-		for(serviceId in this.services) {
+		for(let serviceId in this.services) {
 			let serv = this.services[serviceId];
 			delete serv.service;
-			for(characteristicId in serv.characteristics) {
+			for(let characteristicId in serv.characteristics) {
 				let charact = serv.characteristics[characteristicId];
 				delete charact.characteristic;
 			}
@@ -94,7 +93,7 @@ export class BluetoothDevice {
 		if (this.disconnectFct) {
 			this.disconnectFct();
 		}
-	  console.log('Device ' + device.name + ' is disconnected.');
+	  console.log('Device ' + this + ' is disconnected.');
 	}
 
 	disconnect() {
@@ -103,7 +102,6 @@ export class BluetoothDevice {
 	  }
 
 	  if (this.device.gatt.connected) {
-	    console.log('Disconnect');
 	    this.device.gatt.disconnect();
 	  } else {
 	    console.log('Bluetooth Device is already disconnected');
@@ -113,7 +111,7 @@ export class BluetoothDevice {
 
 export class BluetoothService {
 	constructor(uuid) {
-		this.uuid = name;
+		this.uuid = uuid;
 		this.characteristics = {};
 		this.service = undefined;
 	}
@@ -131,12 +129,12 @@ export class BluetoothService {
 			throw new Error("Service not initialized.");
 		}
 		if (this.characteristics[id].characteristic) {
-			return Promise.resolve(this.characteristics[id].characteristic);
+			return Promise.resolve(this.characteristics[id]);
 		} else {
 			return this.service.getCharacteristic(this.characteristics[id].uuid)
 			.then((characteristic) => {
 				this.characteristics[id].characteristic = characteristic;
-				return characteristic;
+				return this.characteristics[id];
 			});
 		}
 	}
@@ -151,7 +149,7 @@ export class BluetoothCharacteristic{
 
 	write(arrayBuffer) {
 		if (!this.characteristic) {
-			throw new Error("Characteristic not initialized, use getCharacteristic on service.");
+			Promise.reject(new Error("Characteristic not initialized, use getCharacteristic on service."));
 		}
 		return this.characteristic.writeValue(arrayBuffer);
 	}

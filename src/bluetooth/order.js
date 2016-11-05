@@ -6,13 +6,13 @@ export class Order {
 	}
 
 	dataToSend(bytesValue) {
-	  var buf = new ArrayBuffer(this.headerBytes.length + 1 + byteValue.length);
+	  var buf = new ArrayBuffer(this.headerBytes.length + 1 + bytesValue.length);
 	  var bufView = new Uint8Array(buf);
 	  var idx = 0;
 	  // Gestion de l'inversion par paire des bytes
 
 	  for (let i = 0; i < this.headerBytes.length; i+=1) {
-	    bufView[idx++] = headerBytes[i];
+	    bufView[idx++] = this.headerBytes[i];
 	  }
 
 	  bufView[idx++] = this.codeByte;

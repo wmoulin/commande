@@ -35,7 +35,7 @@ export class Baseplate extends React.Component {
         grid.sizeElt = size ;
 
         this.state = grid ;
-        console.log(this.state);
+
     }
 
     render() {
@@ -69,15 +69,27 @@ export class Baseplate extends React.Component {
         let selectElts  = document.querySelectorAll(child.props.bricks.map((brick)=>{return "[x='"+brick.x+"'][y='"+brick.y+"']"}).join(","));
         selectElts.forEach((elt)=>{
           elt.className = child.props.classShape;
-          if (!child.props.onClick && !child.props.activeClassShape) return;
-          elt.addEventListener("click", function(e){
+          if (!child.props.onTouchStart && !child.props.onTouchEnd && !child.props.activeClassShape) return;
+          elt.addEventListener("touchstart", (e) => {
             if (child.props.activeClassShape) {
-              selectElts.forEach((elt)=>{
-                elt.className = child.props.activeClassShape;
+              selectElts.forEach((elem)=>{
+                elem.className = child.props.activeClassShape;
               });
             }
-            if (child.props.onClick) {
-              child.props.onClick();
+            if (child.props.onTouchStart) {
+              child.props.onTouchStart();
+            }
+          });
+          elt.addEventListener("touchend", (e) => {
+            if (child.props.classShape) {
+              selectElts.forEach((elem)=>{
+                elem.className = child.props.classShape;
+              });
+            } else {
+              elt.className = "lego darkgrey";
+            }
+            if (child.props.onTouchEnd) {
+              child.props.onTouchEnd();
             }
           });
         });

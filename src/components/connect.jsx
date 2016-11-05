@@ -8,16 +8,18 @@ export class Connect extends React.Component {
     constructor(props, context) {
       super(props, context);
 
-      this.bluetoothDevice = new BluetoothDevice("LEO", this.onDisconnected);
+      this.bluetoothDevice = new BluetoothDevice("LEO", this.onDisconnected.bind(this));
       this.bluetoothDevice.addService("sCommand", "0000ffe0-0000-1000-8000-00805f9b34fb");
       this.bluetoothDevice.addCharacteristic("sCommand", "cCommand", "0000ffe1-0000-1000-8000-00805f9b34fb");
+//      this.bluetoothDevice.addService("sCommand", "6e400001-b5a3-f393-e0a9-e50e24dcca9e");
+//      this.bluetoothDevice.addCharacteristic("sCommand", "cCommand", "6e400003-b5a3-f393-e0a9-e50e24dcca9e");
     }
 
     render() {
         return (
             <Baseplate width={18} height={26}>
               <BrickShape bricks={this.props.shapes[0].cells} classShape="lego blue upper"/>
-              <BrickShape bricks={this.props.shapes[1].cells} onClick={(e) => this.connect()} classShape="lego grey upper"/>
+              <BrickShape bricks={this.props.shapes[1].cells} onTouchStart={(e) => this.connect()} classShape="lego grey upper"/>
             </Baseplate>
 
         );
@@ -31,15 +33,16 @@ export class Connect extends React.Component {
     		return this.bluetoothDevice.getService("sCommand");
     	})
     	.then((bluetoothService) => {
-    		return this.bluetoothService.getCharacteristic("cCommand");
+    		return bluetoothService.getCharacteristic("cCommand");
     	})
     	.then(() => {
         this.showMessage("Vous êtes maintenant connecté à Léo... à vous de jouer !");
         setTimeout(() => {
           if (this.props.connect) {
-            this.props.connect();
+            this.showMessage("");
+            this.props.connect(this.bluetoothDevice);
           }
-        }, 3000);
+        }, 1000);
     	})
       .catch(error => {
         this.showMessage("Erreur lors de la connexion à Léo : " + error);
@@ -51,7 +54,6 @@ export class Connect extends React.Component {
     }
 
     onDisconnected() {
-      console.log('Device ' + this.bluetoothDevice.name + ' is disconnected.');
       if (this.props.disconnect) {
         this.props.disconnect();
       }

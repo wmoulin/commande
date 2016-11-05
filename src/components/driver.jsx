@@ -12,16 +12,12 @@ export class Driver extends React.Component {
     render() {
         return (
             <Baseplate width={18} height={26}>
-              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(1)} ontouchend={() => this.move(0)}/>
-              <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(3)} ontouchend={() => this.move(0)}/>
-              <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(4)} ontouchend={() => this.move(0)}/>
-              <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper" ontouchstart={() => this.move(2)} ontouchend={() => this.move(0)}/>
-              <BrickShape bricks={this.props.shapes[4].cells} classShape="lego grey upper"/>
-              <BrickShape bricks={this.props.shapes[5].cells} classShape="lego grey upper"/>
-              <BrickShape bricks={this.props.shapes[6].cells} classShape="lego grey upper"/>
-              <BrickShape bricks={this.props.shapes[7].cells} classShape="lego grey upper"/>
-              <BrickShape bricks={this.props.shapes[8].cells} classShape="lego grey upper" ontouchstart={() => this.disconnect()}/>
-              <BrickShape bricks={this.props.shapes[9].cells} classShape="lego grey upper" classShapeClick="lego blue upper" ontouchstart={() => this.move(5)} ontouchend={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(1)} onTouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(3)} ontouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(4)} ontouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(2)} ontouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[4].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.disconnect()}/>
+              <BrickShape bricks={this.props.shapes[5].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(5)} ontouchEnd={() => this.move(0)}/>
             </Baseplate>
 
         );
@@ -29,11 +25,11 @@ export class Driver extends React.Component {
 
     move(direction) {
       this.props.device.getService("sCommand")
-      .then((service)=> {
+      .then((service) => {
         return service.getCharacteristic("cCommand")
       })
       .then((characteristic) => {
-        characteristic.write(this.props.move.dataToSend([direction]));
+        return characteristic.write(this.props.move.dataToSend([direction]));
       }).catch(error => {
         this.showMessage("Erreur lors de l'envoi de la commande à LEO : " + error + ". Deconnexion en cours...");
         console.log(error);
@@ -44,7 +40,11 @@ export class Driver extends React.Component {
     }
 
     disconnect() {
-      this.props.device.disconnect();
+      this.showMessage("Au revoir...");
+      setTimeout(() => {
+        this.showMessage("");
+        this.props.device.disconnect();
+      }, 1000);
     }
 
 
@@ -88,30 +88,6 @@ Driver.defaultProps = {
             {x:16, y:8}, {x:16, y:9}, {x:16, y:10}, {x:16, y:11},
             {x:15, y:7}, {x:15, y:8}, {x:15, y:9}, {x:15, y:10}, {x:15, y:11}, {x:15, y:12},
             {x:14, y:6}, {x:14, y:7}, {x:14, y:8}, {x:14, y:9}, {x:14, y:10}, {x:14, y:11}, {x:14, y:12}, {x:14, y:13}
-        ]
-      },
-      {cells : [
-            //HAUT GAUCHE
-            {x:3, y:3}, {x:4, y:3}, {x:5, y:3},
-            {x:3, y:4}, {x:3, y:5}
-        ]
-      },
-      {cells : [
-            //HAUT DROITE
-            {x:14, y:3}, {x:15, y:3}, {x:16, y:3},
-            {x:16, y:4}, {x:16, y:5}
-        ]
-      },
-      {cells : [
-            //BAS GAUCHE
-            {x:3, y:14}, {x:3, y:15}, {x:3, y:16},
-            {x:4, y:16}, {x:5, y:16}
-        ]
-      },
-      {cells : [
-            //BAS DROITE
-            {x:14, y:16}, {x:15, y:16}, {x:16, y:16},
-            {x:16, y:14}, {x:16, y:15}
         ]
       },
       {cells : [

@@ -13,11 +13,11 @@ export class Driver extends React.Component {
         return (
             <Baseplate width={18} height={26}>
               <BrickShape bricks={this.props.shapes[0].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(1)} onTouchEnd={() => this.move(0)}/>
-              <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(3)} ontouchEnd={() => this.move(0)}/>
-              <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(4)} ontouchEnd={() => this.move(0)}/>
-              <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(2)} ontouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[1].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(3)} onTouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[2].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(4)} onTouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[3].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(2)} onTouchEnd={() => this.move(0)}/>
               <BrickShape bricks={this.props.shapes[4].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.disconnect()}/>
-              <BrickShape bricks={this.props.shapes[5].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(5)} ontouchEnd={() => this.move(0)}/>
+              <BrickShape bricks={this.props.shapes[5].cells} classShape="lego grey upper" activeClassShape="lego blue upper" onTouchStart={() => this.move(5)} onTouchEnd={() => this.move(0)}/>
             </Baseplate>
 
         );

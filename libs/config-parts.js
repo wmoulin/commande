@@ -2,23 +2,40 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack-plugin');
+const merge = require('webpack-merge');
 
 /*
  * Dev configurations
  */
 // Serveur de développement avec activation du Hot Module Replacement
 exports.devServer = (options) => {
-  return {
-    entry: [
+
+  let conf = {entry: [
+    "webpack-dev-server/client?http://" + options.host + ":" + options.port,
+    "webpack/hot/only-dev-server",
+    options.entry
+  ]};
+
+  /*options.entries.forEach((entry)=> {
+    conf.entry[entry.id] = [
+      "webpack-dev-server/client?http://" + options.host + ":" + options.port,
+      "webpack/hot/only-dev-server",
+      entry.file
+    ]
+  });*/
+
+  return merge(conf, {
+    /*entry: [
       "webpack-dev-server/client?http://" + options.host + ":" + options.port,
       "webpack/hot/only-dev-server",
       options.entry
-    ],
+    ],*/
     devServer: {
       historyApiFallback: true,
       hot: true,
       inline: true,
-      stats: 'errors-only',
+      //stats: 'errors-only',
+      stats: { colors: true },
       host: options.host,
       port: options.port
     },
@@ -35,7 +52,7 @@ exports.devServer = (options) => {
     plugins: [
       new webpack.HotModuleReplacementPlugin()
     ]
-  };
+  });
 }
 
 // Transformations CSS :
@@ -92,18 +109,26 @@ exports.setFreeVariable = (key, value) => {
 
 // Bundle splitting :
 //    - création d'un nouveau bundle ('entry chunk')
-//    - génération du manifest (utile pour une gestion de cache fiable)
-exports.extractBundle = (options) => {
+exports.extractBundle = (bundles, options) => {
   const entry = {};
-  entry[options.name] = options.entries;
+  const bundlesNname = [];
+
+  bundles.forEach(({ name, entries }) => {
+    if (entries) {
+      entry[name] = entries;
+    }
+
+    bundlesNname.push(name);
+  });
+
   return {
-    entry: entry,
-    plugins: [
-      new webpack.optimize.CommonsChunkPlugin({
-        names: [options.name, 'manifest']
-      })
-    ]
-  };
+      entry,
+      plugins: [
+        new webpack.optimize.CommonsChunkPlugin(
+          Object.assign({names: bundlesNname}, options)
+        )
+      ]
+    };
 }
 
 // Nettoyage de répertoire

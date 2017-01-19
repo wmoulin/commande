@@ -75,15 +75,45 @@ switch (process.env.npm_lifecycle_event) {
       configParts.purifyCSS([PATHS.client])*/
     );
     break;
-  default:
+    case "build-dev":
+      config = merge(
+        common, {
+          devtool: "cheap-module-eval-source-map",
+          output: {
+            //publicPath: "/static/js/",
+            filename: "static/js/[name].js",
+            chunkFilename: "static/js/[name].js"
+          }
+        },
+        configParts.clean(PATHS.build),
+        configParts.extractBundle([{
+          name: "commons",
+          entries: Object.keys(pkg.dependencies)
+        }])/*,
+        configParts.extractCSS(PATHS.style),
+        configParts.purifyCSS([PATHS.client])*/
+      );
+      break;
+    default:
     config = merge(
       common, {
-        devtool: "cheap-module-eval-source-map"
+        devtool: "cheap-module-eval-source-map",
+        output: {
+          //publicPath: "/static/js/",
+          filename: "static/js/[name].js",
+          chunkFilename: "static/js/[name].js"
+        }
       },
+
       //configParts.setupCSS(PATHS.style),
+      configParts.extractBundle({
+        name: "commons",
+        entries: Object.keys(pkg.dependencies)
+      }),
       configParts.devServer({
         host: "localhost",
         port: 5000,
+        entries: [{id: "client", file: PATHS.client}/*, {id: "vendor", file: "static/js/vendor.js"}, {id: "manifest", file: "static/js/manifest.js"}*/],
         entry: PATHS.client
       })
     );

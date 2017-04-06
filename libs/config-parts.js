@@ -113,7 +113,7 @@ exports.extractBundle = (bundles, options) => {
   const entry = {};
   const bundlesNname = [];
 
-  bundles.forEach(({ name, entries }) => {
+  [bundles].forEach(({ name, entries }) => {
     if (entries) {
       entry[name] = entries;
     }

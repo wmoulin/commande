@@ -17,7 +17,7 @@ export class Connect extends React.Component {
         return (
             <Baseplate width={18} height={26}>
               <BrickShape bricks={this.props.shapes[0].cells} classShape="lego blue upper"/>
-              <BrickShape bricks={this.props.shapes[1].cells} onTouchStart={(e) => this.connect()} classShape="lego grey upper"/>
+              <BrickShape bricks={this.props.shapes[1].cells} onTouchEnd={(e) => this.connect()} classShape="lego grey upper"/>
             </Baseplate>
 
         );
